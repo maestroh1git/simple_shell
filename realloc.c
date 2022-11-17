@@ -27,7 +27,7 @@ void ffree(char **pp)
 	if (!pp)
 		return;
 	while (*pp)
-		free(*PP++);
+		free(*pp++);
 	free(a);
 }
 
@@ -59,4 +59,3 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	free(ptr);
 	return (p);
 }
-

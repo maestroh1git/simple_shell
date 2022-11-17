@@ -95,7 +95,7 @@ int replace_alias(info_t *info)
 			return (0);
 		info->argv[0] = p;
 	}
-	return (i);
+	return (1);
 }
 
 /**

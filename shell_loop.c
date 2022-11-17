@@ -9,7 +9,7 @@
  */
 int hsh(info_t *info, char **av)
 {
-	size_t r = 0;
+	ssize_t r = 0;
 	int builtin_ret = 0;
 
 	while (r != -1 && builtin_ret != -2)
@@ -22,6 +22,7 @@ int hsh(info_t *info, char **av)
 		if (r != -1)
 		{
 			set_info(info, av);
+			builtin_ret = find_builtin(info);
 			if (builtin_ret == -1)
 				find_cmd(info);
 		}
@@ -64,7 +65,7 @@ int find_builtin(info_t *info)
 		{"unsetenv", _myunsetenv},
 		{"cd", _mycd},
 		{"alias", _myalias},
-		{"NULL", NULL}
+		{NULL, NULL}
 	};
 
 	for (i = 0; builtintbl[i].type; i++)
@@ -100,7 +101,7 @@ void find_cmd(info_t *info)
 	if (!k)
 		return;
 
-	path = find_path(info, _getenv(info, "PATH"), info->argv[0]);
+	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
 	if (path)
 	{
 		info->path = path;
@@ -108,7 +109,7 @@ void find_cmd(info_t *info)
 	}
 	else
 	{
-		if ((interactive(info) || _getenv(info, "PATH")
+		if ((interactive(info) || _getenv(info, "PATH=")
 			|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
 			fork_cmd(info);
 		else if (*(info->arg) != '\n')
@@ -129,16 +130,16 @@ void fork_cmd(info_t *info)
 {
 	pid_t child_pid;
 
-	chil_pid = fork();
+	child_pid = fork();
 	if (child_pid == -1)
 	{
 		/* TODO: PUT ERROR FUNCTION */
 		perror("Error:");
 		return;
 	}
-	if (chil_pid == 0)
+	if (child_pid == 0)
 	{
-		if (execve(info->path, if->argv, get_environ(info)) == -1)
+		if (execve(info->path, info->argv, get_environ(info)) == -1)
 		{
 			free_info(info, 1);
 			if (errno == EACCES)

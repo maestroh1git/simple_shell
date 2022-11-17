@@ -1,5 +1,5 @@
-#ifndef _SHELL_H
-#define _SHELL_H
+#ifndef _SHELL_H_
+#define _SHELL_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,7 +21,7 @@
 #define CMD_NORM	0
 #define CMD_OR		1
 #define CMD_AND		2
-#define CMD_CHAIN 3
+#define CMD_CHAIN	3
 
 /* for convert_number() */
 #define CONVERT_LOWERCASE	1
@@ -71,8 +71,7 @@ typedef struct liststr
  * @readfd: the fd from which to read line input
  * @histcount: the history line number count
  */
-
- typedef struct passinfo
+typedef struct passinfo
 {
 	char *arg;
 	char **argv;
@@ -83,7 +82,7 @@ typedef struct liststr
 	int linecount_flag;
 	char *fname;
 	list_t *env;
-	list_t history;
+	list_t *history;
 	list_t *alias;
 	char **environ;
 	int env_changed;
@@ -146,7 +145,7 @@ int _putchar(char);
 /* toem_exits.c */
 char *_strncpy(char *, char *, int);
 char *_strncat(char *, char *, int);
-char *_strchr(char 8, char);
+char *_strchr(char *, char);
 
 /* toem_tokenizer.c */
 char **strtow(char *, char *);
@@ -184,7 +183,7 @@ int _myalias(info_t *);
 
 /* toem_getline.c */
 ssize_t get_input(info_t *);
-int _getline(info_t, char **, size_t *);
+int _getline(info_t *, char **, size_t *);
 void sigintHandler(int);
 
 /* toem_getinfo.c */
@@ -208,13 +207,20 @@ int _setenv(info_t *, char *, char *);
 char *get_history_file(info_t *info);
 int write_history(info_t *info);
 int read_history(info_t *info);
-int build_history_list(info_t *info, chr *buf, int linecount);
+int build_history_list(info_t *info, char *buf, int linecount);
 int renumber_history(info_t *info);
 
 /* toem_lists.c */
 list_t *add_node(list_t **, const char *, int);
 list_t *add_node_end(list_t **, const char *, int);
 size_t print_list_str(const list_t *);
+int delete_node_at_index(list_t **, unsigned int);
+void free_list(list_t **);
+
+/* toem_lists1.c */
+size_t list_len(const list_t *);
+char **list_to_strings(list_t *);
+size_t print_list(const list_t *);
 list_t *node_starts_with(list_t *, char *, char);
 ssize_t get_node_index(list_t *, list_t *);
 

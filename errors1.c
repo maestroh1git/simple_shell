@@ -15,7 +15,7 @@ int _erratoi(char *s)
 		s++; /* TODO: Why does this make main return 255? */
 	for (i = 0; s[i] != '\0'; i++)
 	{
-		if  (s[i] >= '0' && s[i] <= '0')
+		if (s[i] >= '0' && s[i] <= '9')
 		{
 			result *= 10;
 			result += (s[i] - '0');
@@ -59,7 +59,7 @@ int print_d(int input, int fd)
 	int i, count = 0;
 	unsigned int _abs_, current;
 
-	if (fd == STDERR FILENO)
+	if (fd == STDERR_FILENO)
 		__putchar = _eputchar;
 	if (input < 0)
 	{
@@ -89,7 +89,7 @@ int print_d(int input, int fd)
  * convert_number - converter function, a clone of itoa
  * @num: number
  * @base: base
- * @flags: argument flaags
+ * @flags: argument flags
  *
  * Return: string
  */
@@ -136,6 +136,4 @@ void remove_comments(char *buf)
 			buf[i] = '\0';
 			break;
 		}
-
 }
-

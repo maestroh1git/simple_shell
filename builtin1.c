@@ -44,14 +44,14 @@ int unset_alias(info_t *info, char *str)
  *
  * Return: Always 0 on success, 1 on error
  */
-int set_alias(info_t, *info, char *str)
+int set_alias(info_t *info, char *str)
 {
 	char *p;
 
 	p = _strchr(str, '=');
 	if (!p)
 		return (1);
-	if (!*++P)
+	if (!*++p)
 		return (unset_alias(info, str));
 
 	unset_alias(info, str);
@@ -110,7 +110,7 @@ int _myalias(info_t *info)
 		if (p)
 			set_alias(info, info->argv[i]);
 		else
-			print_alias(node_start_with(info->alias, info->argv[i], '='));
+			print_alias(node_starts_with(info->alias, info->argv[i], '='));
 	}
 	return (0);
 }
